@@ -1,0 +1,50 @@
+<section class="Login">
+    <div class="container">
+        <div class="row">            
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <h3 class="text-center">Demo Login</h3>
+                <div class="card card-signin my-5">                    
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Sign In</h5>
+                        <!-- Errors display -->
+                        <p *ngIf="SubmitapiErrors" class="alert alert-danger">{{ SubmitapiErrors }}</p>
+
+                        <form [formGroup]="Loginform" (ngSubmit)="Loginformsubmit()" class="form-signin">
+                            <div class="form-group">
+                                <label for="inputEmail">Email address</label>
+                                <input type="email" class="form-control" [formControlName]="['Email']" placeholder="Email address" required
+                                [ngClass]="{'is-invalid': submitted && f.Email.errors }">
+                                <div *ngIf="submitted && f.Email.errors" class="alert alert-danger">
+                                    <div *ngIf="f.Email.errors.required">Email is required</div>
+                                    <div *ngIf="f.Email.errors.email">Please enter valid email address</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword">Password</label>
+                                <input type="password" class="form-control" [formControlName]="['Password']" placeholder="Password" required
+                                [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
+                                <div *ngIf="submitted && f.Password.errors" class="alert alert-danger">
+                                    <div *ngIf="f.Password.errors.required">Password is required</div>
+                                    <div *ngIf="f.Password.errors.minlength">Password must be at least 6 characters</div>
+                                </div>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                <label class="custom-control-label" for="customCheck1">Remember password</label>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign
+                                in</button>
+                        </form>
+                        <br>
+                        <div>
+                            <p>User Email: srikanth@gmail.com</p> 
+                            <p>Password: Srikanth@123</p>                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

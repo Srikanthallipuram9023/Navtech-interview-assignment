@@ -1,0 +1,179 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="">Demo Application</a>
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link">{{ Loginuserdata }}</a>
+            </li>
+        </ul>
+        <span class="navbar-text">
+            <a href="" (click)="logout()">logout</a>
+        </span>
+    </div>
+</nav>
+
+
+
+<!-- =================================== Alert success ============================================= -->
+<div class="container">
+    <div *ngIf="AlertSucess" class="alert alert-success">
+        <p>Successfullay added new order</p>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="UpdateAlertSucess" class="alert alert-success">
+        <p>Successfullay updated selected order</p>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf="DeleteAlertSucess" class="alert alert-success">
+        <p>Successfullay deleted selected order</p>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+
+
+
+<!-- ================================================================================================
+                            Orders add and update form 
+======================================================================================================-->
+
+<div class="container">
+    <button style="margin-top: 3%; float: right;" type="button" class="btn btn-primary"
+        (click)="openModal(template)">Create New Order</button>
+</div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Order</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form method="POST" [formGroup]="Ordersform">
+            <div class="form-group">
+                <label for="Order Number">Order Number</label>
+                <input type="number" [formControlName]="['Ordernumber']" class="form-control" placeholder="Order number"
+                    required [ngClass]="{'is-invalid': submitted && f.Ordernumber.errors }">
+                <div class="alert alert-danger" *ngIf="submitted && f.Ordernumber.errors">
+                    <div *ngIf="f.Ordernumber.errors.required">Order Number is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dateOfBirth">Due Date</label>
+                <div class="form-group">
+                    <input type="date" class="form-control" [formControlName]="['Duedate']" placeholder="yyyy-mm-dd"
+                        required [ngClass]="{'is-invalid': submitted && f.Duedate.errors }">
+                    <div class="alert alert-danger" *ngIf="submitted && f.Duedate.errors">
+                        <div *ngIf="f.Duedate.errors.required">Due date is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Customer Name">Customer Name</label>
+                <input type="text" class="form-control" [formControlName]="['Customername']" placeholder="Customer Name"
+                    required [ngClass]="{'is-invalid': submitted && f.Customername.errors }">
+                <div class="alert alert-danger" *ngIf="submitted && f.Customername.errors">
+                    <div *ngIf="f.Customername.errors.required">Customer name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Address">Address</label>
+                <textarea class="form-control" [formControlName]="['Address']" cols="50" rows="3" placeholder="Address"
+                    required [ngClass]="{'is-invalid': submitted && f.Address.errors }"></textarea>
+
+                <div class="alert alert-danger" *ngIf="submitted && f.Address.errors">
+                    <div *ngIf="f.Address.errors.required">Address is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input type="number" class="form-control" [formControlName]="['Mobile']" placeholder="Mobile" required
+                    [ngClass]="{'is-invalid': submitted && f.Mobile.errors }">
+                <div class="alert alert-danger" *ngIf="submitted && f.Mobile.errors">
+                    <div *ngIf="f.Mobile.errors.required">Mobile is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Total">Total</label>
+                <input type="number" class="form-control" [formControlName]="['Total']" placeholder="Total" required
+                    [ngClass]="{'is-invalid': submitted && f.Total.errors }">
+                <div class="alert alert-danger" *ngIf="submitted && f.Total.errors">
+                    <div *ngIf="f.Total.errors.required">Total is required</div>
+                </div>
+            </div>
+        </form>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="OrdersFormsave()">Save</button>
+        </div>
+    </div>
+</ng-template>
+
+
+<!-- ================================================================================================
+                           Order delete 
+======================================================================================================-->
+
+
+<ng-template #Confirmtemplate>
+    <div class="modal-body text-center">
+        <p>Are you sure ? Do you want to delete? <strong>{{DeleteCustomername}}</strong></p>
+        <button type="button" class="btn btn-primary" (click)="Deleteconfirm()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="decline()">No</button>
+    </div>
+</ng-template>
+
+
+
+<!-- ================================================================================================
+                            Orders data view in table 
+======================================================================================================-->
+<div>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Order Due Date</th>
+                    <th>Customer buyer name</th>
+                    <th>Customer Address</th>
+                    <th>Customer Phone</th>
+                    <th>OrderTotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let Orders of OrderData">
+                    <td>{{ Orders.Ordernumber }}</td>
+                   <!--  <td>{{ Orders.Duedate | date: 'yyyy-mm-dd'}}</td> -->
+                   <td>{{ Orders.Duedate }}</td>
+                    <td>{{ Orders.Customername }}</td>
+                    <td>{{ Orders.Address }}</td>
+                    <td>{{ Orders.Mobile }}</td>
+                    <td>{{ Orders.Total }}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-secondary fa fa-trash"
+                                (click)="ConfirmopenModal(Orders.ORDERSID, Orders.Customername, Confirmtemplate)"></button>
+                            <button type="button" class="btn btn-secondary fa fa-edit"
+                                (click)="UpdateOrder(Orders.ORDERSID, template)"></button>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+            <tfoot>
+                <tr *ngIf="!OrderData?.length">
+                    <td>
+                        No records {{NodataError}}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
