@@ -8,8 +8,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
 
